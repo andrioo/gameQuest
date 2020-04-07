@@ -7,13 +7,13 @@ from pygame.sprite import Sprite
 from settings import *
 vec = pg.math.Vector2
 
-# Creates player class. Defines the attributes of the sprite (such as color, size, etc.)
+# Creates the player class and defines the attributes of the sprite (such as the color, size, etc.)
 class Player(Sprite):
     def __init__(self, game):
         Sprite.__init__(self)
         self.game = game
         self.image = pg.Surface((30, 40))
-# changed the color of the sprite to blue
+# changes the sprites color to blue
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / 2, HEIGHT / 2)
@@ -46,7 +46,6 @@ class Player(Sprite):
 
         # applies friction
         self.acc.x += self.vel.x * PLAYER_FRICTION
-        # self.acc.y += self.vel.y * PLAYER_FRICTION
         # equations of motion
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
