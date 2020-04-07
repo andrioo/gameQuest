@@ -7,10 +7,9 @@
 # Week of march 23 - Lore
 # Modularity, Github, import as, 
 
-# imports pygame and imports settings
+# pygame, sprites, and settings are imported into main.py
 import pygame as pg
 from pygame.sprite import Group
-# from pg.sprite import Group
 import random
 from settings import *
 from sprites import *
@@ -27,7 +26,7 @@ class Game:
         self.running = True
 
     def new(self):
-        # start a new game
+        # starts a new game
         self.all_sprites = Group()
         self.platforms = pg.sprite.Group()
         self.player = Player(self)
@@ -37,6 +36,8 @@ class Game:
         plat2 = Platform(150, 300, 150, 20)
 # Added a third platform
         plat3 = Platform(10, 200, 300, 20)
+# Adds a fourth platform
+        plat4 = Platform(200, 100, 350, 20)
         self.all_sprites.add(ground)
         self.platforms.add(ground)
         self.all_sprites.add(plat1)
@@ -46,6 +47,9 @@ class Game:
 # Puts in platform 3 (the platform which I added)
         self.all_sprites.add(plat3)
         self.platforms.add(plat3)
+# Puts in platform 4 into the game (the second platform I have added)
+        self.all_sprites.add(plat4)
+        self.platforms.add(plat4)
         # for plat in range(1,10):
         #     plat = Platform(random.randint(0, WIDTH), random.randint(0, HEIGHT), 200, 20)
         #     self.all_sprites.add(plat)
@@ -68,12 +72,12 @@ class Game:
         hits = pg.sprite.spritecollide(self.player, self.platforms, False)
         if hits:
             if self.player.rect.top > hits[0].rect.top:
-                print("i hit my head")
+                print("OUCH! I've hit the top of my head :(")
                 self.player.vel.y = 15
                 self.player.rect.top = hits[0].rect.bottom + 5
                 self.player.hitpoints -= 10
                 print(self.player.hitpoints)
-            # print("it collided")
+            # print("Ouch!")
             else:
                 self.player.vel.y = 0
                 self.player.pos.y = hits[0].rect.top+1
@@ -96,11 +100,11 @@ class Game:
         pg.display.flip()
 
     def show_start_screen(self):
-        # game splash/start screen
+        # the game start screen
         pass
 
     def show_go_screen(self):
-        # game over/continue
+        # game over
         pass
 
 g = Game()
