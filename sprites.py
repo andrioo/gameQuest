@@ -13,8 +13,8 @@ class Player(Sprite):
         Sprite.__init__(self)
         self.game = game
         self.image = pg.Surface((30, 40))
-# changes the sprites color to blue
-        self.image.fill(BLUE)
+# changes the sprites color to RED
+        self.image.fill(RED)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / 2, HEIGHT / 2)
         self.pos = vec(WIDTH / 2, HEIGHT / 2)
@@ -64,7 +64,7 @@ class Platform(Sprite):
     def __init__(self, x, y, w, h):
         Sprite.__init__(self)
         self.image = pg.Surface((w, h))
-# Changed the color of the platforms to pink
+# Changes platforms to pink
         self.image.fill(PINK)
         self.rect = self.image.get_rect()
         self.rect.x = x
