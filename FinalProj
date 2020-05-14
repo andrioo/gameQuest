@@ -11,7 +11,7 @@ import random
 from os import path
 from pathlib import Path
 img_folder = Path("img")
-bg_img = img_folder / "bg.png"
+bg_img = img_folder / "bg.jpg"
 print(bg_img)
 
 game_dir = path.join(path.dirname(__file__))
@@ -47,17 +47,19 @@ mixer.music.play(-1)
 
 # Load all game graphics
 # background has been changed to cartoon clouds
-background = pg.image.load(path.join(game_dir + "/img/bg.png")).convert()
+background = pg.image.load(path.join(game_dir + "/img/bg.jpg")).convert()
 # background = BLUE
 background_rect = background.get_rect()
 background_rect2 = background.get_rect()
-player_img = pg.image.load(path.join(game_dir + "/img/player.png")).convert()
-mob_img = pg.image.load(path.join(game_dir + "/img/mob.png")).convert()
-lazer_img = pg.image.load(path.join(game_dir + "/img/lazer.png")).convert()
-spit_img = pg.image.load(path.join(game_dir + "/img/spit.png")).convert()
+# Removed the .convert() at the end of the loading of my images because it was causing
+# a black background, rather than a png image which is what I wanted.
+player_img = pg.image.load(path.join(game_dir + "/img/player.png"))
+mob_img = pg.image.load(path.join(game_dir + "/img/mob.png"))
+lazer_img = pg.image.load(path.join(game_dir + "/img/lazer.png"))
+spit_img = pg.image.load(path.join(game_dir + "/img/spit.png"))
 powerup_images = {}
-powerup_images['shield'] = pg.image.load(path.join(game_dir + "/img/power.png")).convert()
-powerup_images['gun'] = pg.image.load(path.join(game_dir + "/img/power.png")).convert()
+powerup_images['shield'] = pg.image.load(path.join(game_dir + "/img/power.png"))
+powerup_images['gun'] = pg.image.load(path.join(game_dir + "/img/power.png"))
 player_mini_img = pg.transform.scale(player_img, (25, 19))
 player_mini_img.set_colorkey(GREEN)
 
