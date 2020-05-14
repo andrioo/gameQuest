@@ -2,8 +2,9 @@
 # Shmup game - part 1
 # Video link: https://www.youtube.com/watch?v=nGufy7weyGY
 # Player sprite and movement
-# File taken from class, modified by me: Andrio Daaboul
-
+# 
+import pygame
+from pygame import mixer
 import pygame as pg
 from pygame.sprite import Sprite
 import random
@@ -17,8 +18,8 @@ game_dir = path.join(path.dirname(__file__))
 print(game_dir)
 
 # global variables
-WIDTH = 480
-HEIGHT = 600
+WIDTH = 1067
+HEIGHT = 1000
 FPS = 60
 
 # define colors
@@ -35,10 +36,15 @@ PLUM = (221, 160, 221)
 pg.init()
 pg.mixer.init()
 screen = pg.display.set_mode((WIDTH, HEIGHT))
-pg.display.set_caption("Shmup!")
+pg.display.set_caption("The Coolest Game Known to Man")
 clock = pg.time.Clock()
 
+# Sound
+mixer.music.load("background.wav")
+mixer.music.play(-1)
+
 # Load all game graphics
+# background has been changed to cartoon clouds
 background = pg.image.load(path.join(game_dir + "/img/bg.png")).convert()
 background_rect = background.get_rect()
 background_rect2 = background.get_rect()
@@ -140,7 +146,7 @@ class Pow(Sprite):
         Sprite.__init__(self)
         self.type = random.choice(['shield', 'gun'])
         self.image = powerup_images[self.type]
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(CYAN)
         self.rect = self.image.get_rect()
         self.rect.center = center
         self.speedy = 5
@@ -156,7 +162,7 @@ class Mob(Sprite):
         Sprite.__init__(self)
         # self.image = pg.Surface((30,30))
         self.image = mob_img
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(CYAN)
         # self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
@@ -190,7 +196,7 @@ class Lazer(Sprite):
         Sprite.__init__(self)
         self.image = lazer_img
         # self.image = pg.Surface((5,10))
-        # self.image.fill(BLACK)
+        # self.image.fill(CYAN)
         self.rect = self.image.get_rect()
         self.rect.bottom = y
         self.rect.centerx = x
@@ -206,7 +212,7 @@ class Spit(Sprite):
         Sprite.__init__(self)
         self.image = spit_img
         # self.image = pg.Surface((5,10))
-        # self.image.fill(BLACK)
+        # self.image.fill(CYAN)
         self.rect = self.image.get_rect()
         self.rect.bottom = y
         self.rect.centerx = x
