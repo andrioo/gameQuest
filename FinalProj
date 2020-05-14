@@ -18,8 +18,8 @@ game_dir = path.join(path.dirname(__file__))
 print(game_dir)
 
 # global variables
-WIDTH = 1067
-HEIGHT = 1000
+WIDTH = 480
+HEIGHT = 600
 FPS = 60
 
 # define colors
@@ -40,12 +40,15 @@ pg.display.set_caption("The Coolest Game Known to Man")
 clock = pg.time.Clock()
 
 # Sound
-mixer.music.load("background.wav")
+# Not going to lie. Pretty happy with adding this music to the game.
+# Had to change the code so the file could be located. 
+mixer.music.load(path.join(game_dir + "/img/background.wav"))
 mixer.music.play(-1)
 
 # Load all game graphics
 # background has been changed to cartoon clouds
 background = pg.image.load(path.join(game_dir + "/img/bg.png")).convert()
+# background = BLUE
 background_rect = background.get_rect()
 background_rect2 = background.get_rect()
 player_img = pg.image.load(path.join(game_dir + "/img/player.png")).convert()
