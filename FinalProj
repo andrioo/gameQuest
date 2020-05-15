@@ -1,8 +1,7 @@
-# KidsCanCode - Game Development with Pygame video series
-# Shmup game - part 1
+# Game idea pulled from KidsCanCode - Game Development with Pygame video series, modified by Andrio Daaboul
 # Video link: https://www.youtube.com/watch?v=nGufy7weyGY
+
 # Player sprite and movement
-# 
 import pygame
 from pygame import mixer
 import pygame as pg
@@ -76,6 +75,8 @@ powerup_images['shield'] = pg.image.load(path.join(game_dir + "/img/power.png"))
 powerup_images['gun'] = pg.image.load(path.join(game_dir + "/img/power.png"))
 player_mini_img = pg.transform.scale(player_img, (25, 19))
 player_mini_img.set_colorkey(GREEN)
+
+score = 0
 
 print(player_mini_img)
 
@@ -322,6 +323,15 @@ while running:
 
     if background_rect2.y >- 0:
         background_rect.y = background_rect.y -600
+'''
+Okay so this is to see if a lazer hits one of the Patrick stars/mobs
+If it hits, the score is increased by 100. Each time you defeat a group of Patrick mobs
+You will then get a score of a 100. So if you die with a score of 500, you survived
+5 Patrick star mobs.
+'''
+    hits = pygame.sprite.groupcollide(mobs, lazers, True, True)
+    for hit in hits:
+        score += 100
 
     # Draw or render
     screen.fill(BLACK)
@@ -330,6 +340,7 @@ while running:
     draw_shield_bar(screen, 5, 5, player.shield)
     draw_lives(screen, WIDTH - 100, 5, player.lives, player_mini_img)
     all_sprites.draw(screen)
+    draw_text(screen, str(score), 18, WIDTH / 2, 10)
     pg.display.flip()
 
 pg.quit()
