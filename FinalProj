@@ -18,8 +18,8 @@ game_dir = path.join(path.dirname(__file__))
 print(game_dir)
 
 # global variables
-# Tried changing these but the photo background didn't work
-WIDTH = 480
+# Changed size because background image is large and can support a bigger window
+WIDTH = 600
 HEIGHT = 600
 FPS = 60
 
@@ -32,6 +32,7 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 PLUM = (221, 160, 221)
+FORRESTGREEN = (39, 115, 70)
 
 # initialize pygame and create window
 pg.init()
@@ -66,7 +67,10 @@ background_rect2 = background.get_rect()
 player_img = pg.image.load(path.join(game_dir + "/img/player.png"))
 mob_img = pg.image.load(path.join(game_dir + "/img/mob.png"))
 lazer_img = pg.image.load(path.join(game_dir + "/img/lazer.png"))
+# Spit image is now a water droplet, I also upped the size on it so it makes the game more
+# difficult and is easier to be hit by
 spit_img = pg.image.load(path.join(game_dir + "/img/spit.png"))
+gameover_img = pg.image.load(path.join(game_dir + "/img/gameover.jpg"))
 powerup_images = {}
 powerup_images['shield'] = pg.image.load(path.join(game_dir + "/img/power.png"))
 powerup_images['gun'] = pg.image.load(path.join(game_dir + "/img/power.png"))
@@ -87,8 +91,9 @@ def draw__health(surf, x, y, w):
     outline_rect = pg.Rect(x, y, 100, 20)
     fill_rect = pg.Rect(x, y, w, 20)
     pg.draw.rect(surf, RED, fill_rect)
-    pg.draw.rect(surf, WHITE, outline_rect, 2)
+    pg.draw.rect(surf, BLACK, outline_rect, 2)
 
+# Health bar
 def draw_shield_bar(surf, x, y, pct):
     if pct < 0:
         pct = 0
@@ -97,8 +102,9 @@ def draw_shield_bar(surf, x, y, pct):
     fill = (pct / 100) * BAR_LENGTH
     outline_rect = pg.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pg.Rect(x, y, fill, BAR_HEIGHT)
-    pg.draw.rect(surf, GREEN, fill_rect)
-    pg.draw.rect(surf, WHITE, outline_rect, 2)
+    # Changed color scheme for health bar
+    pg.draw.rect(surf, FORRESTGREEN, fill_rect)
+    pg.draw.rect(surf, BLACK, outline_rect, 2)
 
 def draw_lives(surf, x, y, lives, img):
     for i in range(lives):
@@ -175,7 +181,6 @@ class Mob(Sprite):
         # self.image = pg.Surface((30,30))
         self.image = mob_img
         self.image.set_colorkey(CYAN)
-        # self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
         # the speed at which they move
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
@@ -198,6 +203,7 @@ class Mob(Sprite):
         if self.rect.top > HEIGHT + 10:
             self.rect.y = 0
         if self.hitpoints <= 0:
+            # gameDisplay.blit(gameover_img, (x,y))
             self.kill()   
 
 class Lazer(Sprite):
@@ -213,8 +219,8 @@ class Lazer(Sprite):
     def update(self):
         self.rect.y += self.speedy
         if self.rect.y < 0:
+            # gameDisplay.blit(gameover_img, (x,y))
             self.kill()
-            # print(len(lazers))
 
 class Spit(Sprite):
     def __init__(self, x, y):
@@ -225,12 +231,12 @@ class Spit(Sprite):
         self.rect = self.image.get_rect()
         self.rect.bottom = y
         self.rect.centerx = x
-        self.speedy = 10
+        self.speedy = 7
     def update(self):
         self.rect.y += self.speedy
         if self.rect.y < 0:
+            # gameDisplay.blit(gameover_img, (x,y))
             self.kill()
-            # print(len(lazers))
 
 all_sprites = pg.sprite.Group()
 mobs = pg.sprite.Group()
@@ -244,21 +250,12 @@ for i in range(8):
     all_sprites.add(m)
     mobs.add(m)
 
-# end_it=False
-# while (end_it==False):
-#     window.fill(BLACK)
-#     myfont=pygame.font.SysFont("Britannic Bold", 40)
-#     nlabel=myfont.render("Welcome "+myname+" Start Screen", 1, (255, 0, 0))
-#     for event in pygame.event.get():
-#         if event.type==MOUSEBUTTONDOWN:
-#             end_it=True
-#     window.blit(nlabel,(200,200))
-#     pygame.display.flip()
+# gameDisplay = pygame.display.set_mode((600, 600))
 
 # game loop
 running = True
 while running:
-    # do stuff over and over
+    # gameDisplay.blit(gameover_img, (100,100))
     clock.tick(FPS)
 
     for event in pg.event.get():
@@ -327,7 +324,7 @@ while running:
         background_rect.y = background_rect.y -600
 
     # Draw or render
-    screen.fill(RED)
+    screen.fill(BLACK)
     screen.blit(background, background_rect)
     screen.blit(background, background_rect2)
     draw_shield_bar(screen, 5, 5, player.shield)
