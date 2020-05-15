@@ -48,6 +48,15 @@ mixer.music.play(-1)
 
 # Loads all game graphics here
 # background has been changed to cartoon clouds
+
+# Inspiration of images for game:
+'''
+I created all the characters and backgrounds from things from my childhood.
+For example: you play as the crazy guy from family guy, the mobs are Patrick Star
+from Spongebob (best show ever) and the background I tried to have a Mario vibe
+which was a game I used to play on the DS. The sound was just a free song I found
+that I thought would match the style of the game. 
+'''
 background = pg.image.load(path.join(game_dir + "/img/bg.jpg")).convert()
 # background = BLUE
 background_rect = background.get_rect()
@@ -102,7 +111,9 @@ class Player(Sprite):
     def __init__(self):
         Sprite.__init__(self)
         # self.image = pg.Surface((50,40))
-        self.image = pg.transform.scale(player_img, (50, 40))
+        # Increased player size, now image looks better, and also increases
+        # difficulty of the game because now it is easier to get hit by spit of mobs.
+        self.image = pg.transform.scale(player_img, (100, 100))
         self.image.set_colorkey(GREEN)
         # self.image = player_img
         # self.image.fill(GREEN)
@@ -166,23 +177,21 @@ class Mob(Sprite):
         self.image.set_colorkey(CYAN)
         # self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
+        # the speed at which they move
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
         self.rect.y = random.randrange(0, 250)
         self.speedy = random.randrange(1, 10)
         self.speedx = random.randrange(1, 8)
-        self.hitpoints = 10
+        # Upped the hit points
+        self.hitpoints = 25
     def pew(self):
         spit = Spit(self.rect.centerx, self.rect.top)
         all_sprites.add(spit)
         spits.add(spit)
     def update(self):
-        # self.health_image = pg.Surface(int(self.hitpoints), int(10))
-        # self.health_rect.x = self.x
-        # self.health_rect.y = self.y
         self.rect.x += self.speedx
         if random.random() > 0.99:
             self.pew()
-        # self.rect.y += self.speedy
         if self.rect.x > WIDTH or self.rect.x < 0:
             self.speedx*=-1
             self.rect.y += random.randrange(5,25)
